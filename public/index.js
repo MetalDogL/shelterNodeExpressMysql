@@ -22,12 +22,18 @@ window.onload = () => {
                 let hasHome = document.createElement('td');
                 hasHome.textContent = dog.hashome === 1 ? "Yes" : "NO";
                 row.appendChild(hasHome);
-
+                let button = document.createElement('button');
+                button.secretId = dog.id;
+                button.textContent = 'DELETE';
+                button.addEventListener('click', (event) => {
+                    let deleteDog = new XMLHttpRequest();
+                    deleteDog.open('DELETE', `http://localhost:3021/delete/${dog.id}`, true);
+                    deleteDog.send();
+                })
+                row.appendChild(button);
                 toFill.appendChild(row);
             })
-            console.log(dogs)
         }
-
     }
     getDogs.send();
 

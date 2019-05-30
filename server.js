@@ -31,18 +31,21 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-    console.log(req.body);
-    mysqlConn.query('INSERT INTO dogs(name, age, date, hashome) VALUES(?,?,?,?)',
-        [req.body.name, req.body.age, new Date(req.body.date), req.body.hashome],
-        (err, docs) => {
-            if (err) {
-                console.log(err);
-                res.status(500).json(err);
-            } else {
-                res.status(200).json(docs);
+    if (req.body.name !== '' || req.body.age !== '') {
+        mysqlConn.query('INSERT INTO dogs(name, age, date, hashome) VALUES(?, ?, ?, ?)',
+            [req.body.name, req.body.age, new Date(req.body.date), req.body.hashome],
+            (err, docs) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json(err);
+                } else {
+                    res.status(200).json(docs);
+                }
             }
-        }
-    )
+        )
+    } else {
+        res.status(500).json({ error: 'missing fields' });
+    }
 })
 
 app.get('/getDogs', (req, res) => {
