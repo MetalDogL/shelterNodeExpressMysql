@@ -30,4 +30,16 @@ window.onload = () => {
 
     }
     getDogs.send();
+
+    let senddata = document.querySelector('.senddata');
+    senddata.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const { name, age } = event.target.elements;
+        console.log(name.value, age.value);
+        let bodyToSend = { name: name.value, age: age.value, date: Date.now(), hashome: false };
+        let sendDog = new XMLHttpRequest();
+        sendDog.open('POST', 'http://localhost:3021/', true);
+        sendDog.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        sendDog.send(JSON.stringify(bodyToSend));
+    })
 }
