@@ -10,15 +10,15 @@ window.onload = () => {
                 let name = document.createElement('td');
                 name.textContent = dog.name;
                 row.appendChild(name);
-
                 let age = document.createElement('td');
                 age.textContent = dog.age;
                 row.appendChild(age);
-
                 let date = document.createElement('td');
                 date.textContent = dog.date;
                 row.appendChild(date);
-
+                let id = document.createElement('td');
+                id.textContent = dog.id;
+                row.appendChild(id);
                 let hasHome = document.createElement('td');
                 hasHome.textContent = dog.hashome === 1 ? "Yes" : "NO";
                 row.appendChild(hasHome);
@@ -31,6 +31,16 @@ window.onload = () => {
                     deleteDog.send();
                 })
                 row.appendChild(button);
+
+                let takeHomeButton = document.createElement('button');
+                takeHomeButton.secretId = dog.id;
+                takeHomeButton.textContent = 'TAKE HOME';
+                takeHomeButton.addEventListener('click', (event) => {
+                    let takeHomeDog = new XMLHttpRequest();
+                    takeHomeDog.open('PATCH', `http://localhost:3021/takeHome/${dog.id}`, true);
+                    takeHomeDog.send();
+                })
+                row.appendChild(takeHomeButton);
                 toFill.appendChild(row);
             })
         }

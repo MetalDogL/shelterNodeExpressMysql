@@ -48,6 +48,19 @@ app.post('/', (req, res) => {
     }
 })
 
+app.delete('/delete/:id', (req, res) => {
+    mysqlConn.query('DELETE FROM dogs where id = ?',
+        [req.params.id],
+        (err, docs) => {
+            if (err) {
+                res.status(500).json(err);
+            } else {
+                res.status(200).json(docs);
+            }
+        }
+    )
+})
+
 app.get('/getDogs', (req, res) => {
     mysqlConn.query('SELECT * FROM dogs',
         (err, docs) => {
